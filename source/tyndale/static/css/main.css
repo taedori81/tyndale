@@ -1,0 +1,12 @@
+
+.navbar {
+  transition-duration: 1s;
+}
+
+.faculty-tab-link {
+  width: 33.33%;
+}
+
+.faculty-class-tab-link {
+  width: auto;
+}

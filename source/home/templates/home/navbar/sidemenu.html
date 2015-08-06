@@ -1,0 +1,15 @@
+{% load tyndale_tags wagtailcore_tags %}
+{% get_site_root as site_root %}
+
+ <div class="sidemenu" data-ix="sleft-load-300">
+     <h3 class="sidemenu-heading">{{ parent.title }}</h3>
+     {% if has_children %}
+        {% for child in children %}
+            <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+        {% endfor %}
+     {% else %}
+          <a class="submenu-subheading" href="{% pageurl current_page %}">{{ current_page.title }}</a>
+     {% endif %}
+ </div>
+
+<!-- TODO add more margin in last link in sidemenu -->
