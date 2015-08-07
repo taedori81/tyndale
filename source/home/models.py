@@ -521,30 +521,6 @@ class FacultyPage(Page):
     tab_title_2 = models.CharField(max_length=30,
                                    help_text='maximum length of 30 characters',
                                    default='tab title goes here')
-    subject_name_1 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Biblical Theology / Biblical Languages')
-    subject_name_2 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Hermeneutics / Christian Counseling')
-    subject_name_3 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Christian Education')
-    subject_name_4 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church History/Historical Theology')
-    subject_name_5 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church Music')
-    subject_name_6 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church Ministry/Practical Theology')
-    subject_name_7 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Christian Evangelism / Missiology')
-    subject_name_8 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Systematic Theology/Apologetics')
 
     @property
     def courses(self):
@@ -566,14 +542,6 @@ class FacultyPage(Page):
         FieldPanel('subsection_subtitle', classname='full title'),
         FieldPanel('tab_title_1', classname='full'),
         FieldPanel('tab_title_2', classname='full'),
-        FieldPanel('subject_name_1', classname='full'),
-        FieldPanel('subject_name_2', classname='full'),
-        FieldPanel('subject_name_3', classname='full'),
-        FieldPanel('subject_name_4', classname='full'),
-        FieldPanel('subject_name_5', classname='full'),
-        FieldPanel('subject_name_6', classname='full'),
-        FieldPanel('subject_name_7', classname='full'),
-        FieldPanel('subject_name_8', classname='full'),
 
     ]
 
