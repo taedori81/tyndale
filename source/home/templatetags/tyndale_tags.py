@@ -1,4 +1,5 @@
 from django import template
+from ..models import HomePage, Page, AboutPage
 
 register = template.Library()
 
@@ -36,14 +37,27 @@ def display_navbar_dropdown(context, parent):
 
 
 @register.inclusion_tag('home/navbar/sidemenu.html', takes_context=True)
-def display_sidemenu(context, parent):
+def display_sidemenu(context):
     current_page = context['self']
-    has_children = parent.get_children().live().in_menu().exists()
-    menuitems_children = parent.get_children().live().in_menu()
+    has_children = current_page.get_children().live().in_menu().exists()
+    menuitems_children = current_page.get_children().live().in_menu()
+
+    ancestor = current_page.get_ancestors().last()
+    if ancestor is not None:
+        ancestor_children_has_children = ancestor.get_children().live().in_menu().exists()
+        if ancestor_children_has_children:
+            ancestor_children = ancestor.get_children().live().in_menu()
+        else:
+            ancestor_children = ()
+    else:
+        ancestor_children_has_children = False
+        ancestor_children = ()
 
     return {
+        "ancestor": ancestor,
+        "ancestor_children_has_children": ancestor_children_has_children,
+        "ancestor_children": ancestor_children,
         "current_page": current_page,
-        "parent": parent,
         "children": menuitems_children,
         "has_children": has_children,
         "request": context['request']

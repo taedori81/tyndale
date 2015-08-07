@@ -2,13 +2,28 @@
 {% get_site_root as site_root %}
 
  <div class="sidemenu" data-ix="sleft-load-300">
-     <h3 class="sidemenu-heading">{{ parent.title }}</h3>
+
      {% if has_children %}
+        <h3 class="sidemenu-heading">{{ current_page.title }}</h3>
         {% for child in children %}
-            <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+            {% if forloop.last %}
+                <a class="submenu-subheading last-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+            {% else %}
+                <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+            {% endif %}
+
         {% endfor %}
      {% else %}
-          <a class="submenu-subheading" href="{% pageurl current_page %}">{{ current_page.title }}</a>
+         <h3 class="sidemenu-heading">{{ ancestor.title }}</h3>
+         {% if ancestor_children_has_children %}
+             {% for child in ancestor_children %}
+                 {% if forloop.last %}
+                    <a class="submenu-subheading last-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+                 {% else %}
+                     <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
+                 {% endif %}
+             {% endfor %}
+         {% endif %}
      {% endif %}
  </div>
 

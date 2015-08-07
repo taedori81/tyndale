@@ -1,5 +1,8 @@
 
 .navbar {
+  -webkit-transition-duration: 1s;
+  -moz-transition-duration: 1s;
+  -o-transition-duration: 1s;
   transition-duration: 1s;
 }
 
@@ -9,4 +12,26 @@
 
 .faculty-class-tab-link {
   width: auto;
+}
+
+form > p {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+form > p > input, form > p > textarea {
+  width: 100%;
+}
+
+form > p > input {
+  height: 35px;
+}
+
+form > p > label {
+  display: None;
+}
+
+.errorlist {
+  list-style-type: none;
+  color: red;
 }

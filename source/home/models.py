@@ -1,10 +1,12 @@
 from __future__ import unicode_literals
 
 from django.db import models
-from wagtail.wagtailadmin.edit_handlers import FieldPanel
+from modelcluster.fields import ParentalKey
+from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailcore.fields import RichTextField
 
 from wagtail.wagtailcore.models import Page
+from wagtail.wagtailforms.models import AbstractFormField, AbstractEmailForm
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
 
 
@@ -512,3 +514,32 @@ class AdmissionPage(Page):
     ]
 
 
+class FormField(AbstractFormField):
+    page = ParentalKey('ContactPage', related_name='form_fields')
+
+
+class ContactPage(AbstractEmailForm):
+
+    contact_header = models.CharField(max_length=30,
+                                      help_text='maximum length of 30 characters',
+                                      default='Contact Us')
+    contact_subheader = models.CharField(max_length=100,
+                                         help_text='maximum length of 100 characters',
+                                         default='Fill in the form below to get in touch with us.')
+    thank_you_text = models.CharField(max_length=255,
+                                      help_text='maximum length of 255 characters',
+                                      default='Thank you for contacting us, We will contact you as soon as possible.')
+
+ContactPage.content_panels = [
+    FieldPanel('title', classname="full title"),
+    FieldPanel('contact_header', classname='full'),
+    FieldPanel('contact_subheader', classname='full'),
+    FieldPanel('thank_you_text', classname='full'),
+    InlinePanel('form_fields', label='Form fields'),
+    MultiFieldPanel([
+        FieldPanel('to_address', classname='full'),
+        FieldPanel('from_address', classname='full'),
+        FieldPanel('subject', classname='full'),
+
+    ], "Email")
+]
