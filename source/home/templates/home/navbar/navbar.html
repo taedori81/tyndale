@@ -18,7 +18,7 @@
                   {% display_navbar_dropdown parent=menuitem %}
                 </div>
               {% else %}
-                <a class="w-nav-link nav-link" href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
+                <a class="w-nav-link nav-link {% if menuitem.active %}w--current{% endif %}" href="{% pageurl menuitem %}">{{ menuitem.title }}</a>
               {% endif %}
           {% endfor %}
       </nav>

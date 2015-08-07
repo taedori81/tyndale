@@ -1,5 +1,5 @@
 from django import template
-from ..models import HomePage, Page, AboutPage
+from ..models import HomePage, Page, AboutPage, Course
 
 register = template.Library()
 
@@ -71,3 +71,5 @@ def display_subsection(context):
     return {
         "current_page": current_page,
     }
+
+

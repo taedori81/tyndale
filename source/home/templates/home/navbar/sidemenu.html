@@ -6,25 +6,17 @@
      {% if has_children %}
         <h3 class="sidemenu-heading">{{ current_page.title }}</h3>
         {% for child in children %}
-            {% if forloop.last %}
-                <a class="submenu-subheading last-subheading" href="{% pageurl child %}">{{ child.title }}</a>
-            {% else %}
-                <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
-            {% endif %}
-
+           <a class="submenu-subheading {% if forloop.last %}last-subheading{% endif %}{% if child.active %}active{% endif %}"
+              href="{% pageurl child %}">{{ child.title }}</a>
         {% endfor %}
      {% else %}
          <h3 class="sidemenu-heading">{{ ancestor.title }}</h3>
          {% if ancestor_children_has_children %}
              {% for child in ancestor_children %}
-                 {% if forloop.last %}
-                    <a class="submenu-subheading last-subheading" href="{% pageurl child %}">{{ child.title }}</a>
-                 {% else %}
-                     <a class="submenu-subheading" href="{% pageurl child %}">{{ child.title }}</a>
-                 {% endif %}
+                 <a class="submenu-subheading {% if forloop.last %}last-subheading{% endif %}{% if child.active %}active{% endif %}"
+                    href="{% pageurl child %}">{{ child.title }}</a>
              {% endfor %}
          {% endif %}
      {% endif %}
  </div>
 
-<!-- TODO add more margin in last link in sidemenu -->

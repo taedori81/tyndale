@@ -13,83 +13,19 @@
 {% block wide-container %}wide-container{% endblock %}
 
 {% block w-col-9 %}
-    <div class="w-dropdown program-dropdown" data-delay="900">
-        <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-             <div class="programs-title">{{ self.program_title_1 }}</div>
-             <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-           </div>
-           <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-             <div class="program-content">
-               {{ self.program_body_1 | richtext }}
-             </div>
-           </div>
-         </div>
-
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_2 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-               {{ self.program_body_2 | richtext }}
+    {% with self.programs.all as academic_programs %}
+        {% if academic_programs %}
+            {% for program in academic_programs %}
+            <div class="w-dropdown program-dropdown" data-delay="900">
+                <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
+                     <div class="programs-title">{{ program.program_name }}</div>
+                     <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
+                </div>
+                <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
+                    <div class="program-content">{{ program.program_description | richtext }}</div>
+                </div>
             </div>
-          </div>
-        </div>
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_3 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-              {{ self.program_body_3 | richtext }}
-            </div>
-          </div>
-        </div>
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_4 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-               {{ self.program_body_4 | richtext }}
-            </div>
-          </div>
-        </div>
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_5 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-               {{ self.program_body_5 | richtext }}
-            </div>
-          </div>
-        </div>
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_6 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-               {{ self.program_body_6 | richtext }}
-            </div>
-          </div>
-        </div>
-        <div class="w-dropdown program-dropdown" data-delay="900">
-          <div class="w-dropdown-toggle program-dropdown-toggle" data-ix="accordion">
-            <div class="programs-title">{{ self.program_title_7 }}</div>
-            <div class="w-icon-dropdown-toggle program-dropdown-icon"></div>
-          </div>
-          <div class="w-dropdown-list program-dropdown-list" data-ix="hidden">
-            <div class="program-content">
-               {{ self.program_body_7 | richtext }}
-            </div>
-          </div>
-        </div>
-    </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
 {% endblock %}

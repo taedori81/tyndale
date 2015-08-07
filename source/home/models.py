@@ -1,13 +1,76 @@
 from __future__ import unicode_literals
 
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
+
 from modelcluster.fields import ParentalKey
 from wagtail.wagtailadmin.edit_handlers import FieldPanel, InlinePanel, MultiFieldPanel
 from wagtail.wagtailcore.fields import RichTextField
 
-from wagtail.wagtailcore.models import Page
+from wagtail.wagtailcore.models import Page, Orderable
 from wagtail.wagtailforms.models import AbstractFormField, AbstractEmailForm
 from wagtail.wagtailimages.edit_handlers import ImageChooserPanel
+from wagtail.wagtailsnippets.edit_handlers import SnippetChooserPanel
+from wagtail.wagtailsnippets.models import register_snippet
+
+
+@register_snippet
+class Course(models.Model):
+    course_name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return self.course_name
+
+
+class AbstractProfessor(models.Model):
+    professor_image = models.ForeignKey(
+        "wagtailimages.Image",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+',
+        help_text="Picture must be size of 150 x 200 (width x height)"
+    )
+    professor_name = models.CharField(max_length=30, verbose_name=_('Professor Name'),
+                                      help_text="Professor name with maximum length of 30 characters",
+                                      default="Professor Name")
+    professor_spec = RichTextField(verbose_name=_('Professor Spec'), default="Professor Spec.")
+
+    class Meta:
+        abstract = True
+
+
+@register_snippet
+class Professor(AbstractProfessor):
+    course = models.ForeignKey(
+        "Course",
+        blank=False,
+        null=True,
+        on_delete=models.SET_NULL,
+        related_name='+'
+    )
+
+    def __str__(self):
+        return self.professor_name
+
+
+@register_snippet
+class AdjunctProfessor(AbstractProfessor):
+
+    professor_course = models.CharField(max_length=100, verbose_name=_('Course'),
+                                       help_text="Professor title with maximum length of 100 characters")
+
+    def __str__(self):
+        return self.professor_name
+
+
+@register_snippet
+class AcademicPrograms(models.Model):
+    program_name = models.CharField(max_length=50)
+    program_description = RichTextField()
+
+    def __str__(self):
+        return self.program_name
 
 
 class HomePage(Page):
@@ -371,118 +434,17 @@ class AcademicProgramPage(Page):
     subsection_subtitle = models.CharField(max_length=100,
                                            help_text='maximum length of 100 characters',
                                            default='subtitle goes here')
-    program_title_1 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_1 = RichTextField(default="Program's Description")
+    @property
+    def programs(self):
+        programs = AcademicPrograms.objects.all()
+        programs = programs.order_by('program_name')
 
-    program_title_2 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_2 = RichTextField(default="Program's Description")
-
-    program_title_3 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_3 = RichTextField(default="Program's Description")
-
-    program_title_4 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_4 = RichTextField(default="Program's Description")
-
-    program_title_5 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_5 = RichTextField(default="Program's Description")
-
-    program_title_6 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_6 = RichTextField(default="Program's Description")
-
-    program_title_7 = models.CharField(max_length=50,
-                                       help_text='maximum length of 50 characters',
-                                       default='academic program title goes here')
-    program_body_7 = RichTextField(default="Program's Description")
+        return programs
 
     content_panels = Page.content_panels + [
         FieldPanel('subsection_title', classname='full title'),
         FieldPanel('subsection_subtitle', classname='full title'),
-        FieldPanel('program_title_1', classname='full'),
-        FieldPanel('program_body_1', classname='full'),
 
-        FieldPanel('program_title_2', classname='full'),
-        FieldPanel('program_body_2', classname='full'),
-
-        FieldPanel('program_title_3', classname='full'),
-        FieldPanel('program_body_3', classname='full'),
-
-        FieldPanel('program_title_4', classname='full'),
-        FieldPanel('program_body_4', classname='full'),
-
-        FieldPanel('program_title_5', classname='full'),
-        FieldPanel('program_body_5', classname='full'),
-
-        FieldPanel('program_title_6', classname='full'),
-        FieldPanel('program_body_6', classname='full'),
-
-        FieldPanel('program_title_7', classname='full'),
-        FieldPanel('program_body_7', classname='full'),
-    ]
-
-
-class FacultyPage(Page):
-    subsection_title = models.CharField(max_length=30,
-                                        help_text='maximum length of 30 characters',
-                                        default='title goes here')
-    subsection_subtitle = models.CharField(max_length=100,
-                                           help_text='maximum length of 100 characters',
-                                           default='subtitle goes here')
-    tab_title_1 = models.CharField(max_length=30,
-                                   help_text='maximum length of 30 characters',
-                                   default='tab title goes here')
-    tab_title_2 = models.CharField(max_length=30,
-                                   help_text='maximum length of 30 characters',
-                                   default='tab title goes here')
-    subject_name_1 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Biblical Theology / Biblical Languages')
-    subject_name_2 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Hermeneutics / Christian Counseling')
-    subject_name_3 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Christian Education')
-    subject_name_4 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church History/Historical Theology')
-    subject_name_5 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church Music')
-    subject_name_6 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Church Ministry/Practical Theology')
-    subject_name_7 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Christian Evangelism / Missiology')
-    subject_name_8 = models.CharField(max_length=50,
-                                   help_text='maximum length of 50 characters',
-                                   default='Systematic Theology/Apologetics')
-
-    content_panels = Page.content_panels + [
-        FieldPanel('subsection_title', classname='full title'),
-        FieldPanel('subsection_subtitle', classname='full title'),
-        FieldPanel('tab_title_1', classname='full'),
-        FieldPanel('tab_title_2', classname='full'),
-        FieldPanel('subject_name_1', classname='full'),
-        FieldPanel('subject_name_2', classname='full'),
-        FieldPanel('subject_name_3', classname='full'),
-        FieldPanel('subject_name_4', classname='full'),
-        FieldPanel('subject_name_5', classname='full'),
-        FieldPanel('subject_name_6', classname='full'),
-        FieldPanel('subject_name_7', classname='full'),
-        FieldPanel('subject_name_8', classname='full'),
     ]
 
 
@@ -543,3 +505,95 @@ ContactPage.content_panels = [
 
     ], "Email")
 ]
+
+
+
+class FacultyPage(Page):
+    subsection_title = models.CharField(max_length=30,
+                                        help_text='maximum length of 30 characters',
+                                        default='title goes here')
+    subsection_subtitle = models.CharField(max_length=100,
+                                           help_text='maximum length of 100 characters',
+                                           default='subtitle goes here')
+    tab_title_1 = models.CharField(max_length=30,
+                                   help_text='maximum length of 30 characters',
+                                   default='tab title goes here')
+    tab_title_2 = models.CharField(max_length=30,
+                                   help_text='maximum length of 30 characters',
+                                   default='tab title goes here')
+    subject_name_1 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Biblical Theology / Biblical Languages')
+    subject_name_2 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Hermeneutics / Christian Counseling')
+    subject_name_3 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Christian Education')
+    subject_name_4 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Church History/Historical Theology')
+    subject_name_5 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Church Music')
+    subject_name_6 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Church Ministry/Practical Theology')
+    subject_name_7 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Christian Evangelism / Missiology')
+    subject_name_8 = models.CharField(max_length=50,
+                                   help_text='maximum length of 50 characters',
+                                   default='Systematic Theology/Apologetics')
+
+    @property
+    def courses(self):
+        courses = Course.objects.all()
+        return courses
+
+    @property
+    def professors(self):
+        professors = Professor.objects.all()
+        return professors
+
+    @property
+    def adjunct_professors(self):
+        adjunct_professors = AdjunctProfessor.objects.all()
+        return adjunct_professors
+
+    content_panels = Page.content_panels + [
+        FieldPanel('subsection_title', classname='full title'),
+        FieldPanel('subsection_subtitle', classname='full title'),
+        FieldPanel('tab_title_1', classname='full'),
+        FieldPanel('tab_title_2', classname='full'),
+        FieldPanel('subject_name_1', classname='full'),
+        FieldPanel('subject_name_2', classname='full'),
+        FieldPanel('subject_name_3', classname='full'),
+        FieldPanel('subject_name_4', classname='full'),
+        FieldPanel('subject_name_5', classname='full'),
+        FieldPanel('subject_name_6', classname='full'),
+        FieldPanel('subject_name_7', classname='full'),
+        FieldPanel('subject_name_8', classname='full'),
+
+    ]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
