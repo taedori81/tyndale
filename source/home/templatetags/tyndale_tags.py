@@ -64,7 +64,7 @@ def display_sidemenu(context):
     }
 
 
-@register.inclusion_tag('home/include/subsection.html', takes_context=True)
+@register.inclusion_tag('home/inclusion/subsection.html', takes_context=True)
 def display_subsection(context):
     current_page = context['self']
 
