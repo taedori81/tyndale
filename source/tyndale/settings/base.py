@@ -50,6 +50,11 @@ INSTALLED_APPS = (
     'taggit',
     'compressor',
     'modelcluster',
+    'overextends',
+    'home',
+    'dashboard',
+
+
 
     'wagtail.wagtailcore',
     'wagtail.wagtailadmin',
@@ -67,11 +72,12 @@ INSTALLED_APPS = (
     'crispy_forms',
     'easy_thumbnails',
 
+
     'accounts',
     'profiles',
     'customuser',
     'search',
-    'home',
+
 )
 
 MIDDLEWARE_CLASSES = (
