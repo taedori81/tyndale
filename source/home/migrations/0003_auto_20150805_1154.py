@@ -29,17 +29,17 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='homepage',
             name='slider1_header2',
-            field=models.CharField(max_length=30, help_text='maximum length of 30 characters', default='Tyndale international university'),
+            field=models.CharField(max_length=50, help_text='maximum length of 30 characters', default='Tyndale international university'),
         ),
         migrations.AddField(
             model_name='homepage',
             name='slider1_subheader1',
-            field=models.CharField(max_length=30, help_text='maximum length of 30 characters', default='The reformed theology based seminary'),
+            field=models.CharField(max_length=100, help_text='maximum length of 30 characters', default='The reformed theology based seminary'),
         ),
         migrations.AddField(
             model_name='homepage',
             name='slider2_header1',
-            field=models.CharField(max_length=100, help_text='maximum length of 100 characters', default='This displays bible verse'),
+            field=models.CharField(max_length=255, help_text='maximum length of 100 characters', default='This displays bible verse'),
         ),
         migrations.AddField(
             model_name='homepage',
