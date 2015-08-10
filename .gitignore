@@ -136,6 +136,8 @@ target/
 bower_components/
 
 db.sqlite3
+dev.py
+local.env
 
 
 

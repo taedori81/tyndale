@@ -8,23 +8,23 @@ DEBUG = False
 TEMPLATE_DEBUG = False
 
 # Must mention ALLOWED_HOSTS in production!
-# ALLOWED_HOSTS = ["tyndale.com"]
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-#
-# ADMINS = (('Taehwan', 'builtbyevo@gmail.com'),)
-#
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+ADMINS = (('Taehwan', 'builtbyevo@gmail.com'),)
+
 # SERVER_EMAIL = 'evo@byevo.com'
-#
-# ALLOWED_HOSTS = ['.byevo.com',
-#                  '.taedori-staging.com',
-#                  'localhost']
-#
-# EMAIL_HOST = "smtp.gmail.com"
-# EMAIL_HOST_USER = env('EMAIL_ADDRESS')
-# EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
+
+ALLOWED_HOSTS = ['.tyndaleinternationaluniversity.org',
+                 '.taedori-staging.com',
+                 'localhost']
+
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = env('EMAIL_ADDRESS')
+EMAIL_HOST_PASSWORD = env('EMAIL_PASSWORD')
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
 
 
 # Cache the templates in memory for speed-up
