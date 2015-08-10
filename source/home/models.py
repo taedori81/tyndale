@@ -84,7 +84,7 @@ class HomePage(Page):
                                           help_text='maximum length of 100 characters',
                                           default='The reformed theology based seminary')
 
-    slider2_header1 = models.CharField(max_length=100,
+    slider2_header1 = models.CharField(max_length=255,
                                        help_text='maximum length of 100 characters',
                                        default='This displays bible verse')
     slider2_subheader1 = models.CharField(max_length=30,
